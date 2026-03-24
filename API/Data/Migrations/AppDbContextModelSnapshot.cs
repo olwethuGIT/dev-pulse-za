@@ -44,6 +44,9 @@ namespace API.Data.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("INTEGER");
+
                     b.Property<string>("Content")
                         .IsRequired()
                         .HasColumnType("TEXT");
@@ -63,21 +66,59 @@ namespace API.Data.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("AuthorId");
+
+                    b.HasIndex("CategoryId");
+
                     b.ToTable("Articles");
+                });
+
+            modelBuilder.Entity("API.Entities.Category", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Category");
                 });
 
             modelBuilder.Entity("API.Entities.Article", b =>
                 {
-                    b.HasOne("API.Entities.AppUser", "User")
+                    b.HasOne("API.Entities.AppUser", "Author")
                         .WithMany("Articles")
-                        .HasForeignKey("Id")
+                        .HasForeignKey("AuthorId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("User");
+                    b.HasOne("API.Entities.Category", "Category")
+                        .WithMany("Articles")
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Author");
+
+                    b.Navigation("Category");
                 });
 
             modelBuilder.Entity("API.Entities.AppUser", b =>
+                {
+                    b.Navigation("Articles");
+                });
+
+            modelBuilder.Entity("API.Entities.Category", b =>
                 {
                     b.Navigation("Articles");
                 });
