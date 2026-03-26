@@ -1,3 +1,13 @@
+export type ArticleDto = {
+  id: string;
+  title: string;
+  content: string;
+  createdAt: string;
+  authorName: string;
+  categoryName: string;
+  likesCount: number;
+};
+
 export type Article = {
   id: string;
   title: string;
@@ -14,4 +24,10 @@ export type Article = {
     id: string;
     name: string;
   };
+  likes: ArticleLike[];
 };
+
+export interface ArticleLike {
+  userId: string;
+  articleId: string;
+}

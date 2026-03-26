@@ -19,4 +19,7 @@ public class Article
     
     [ForeignKey(nameof(CategoryId))]
     public Category Category { get; set; } = null!;
+    
+    public List<ArticleLike> Likes { get; set; } = [];
+    public List<Comment> Comments { get; set; } = [];
 }

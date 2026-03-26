@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { ArticlesService } from '../../../core/services/articles-service';
 import { Observable } from 'rxjs';
-import { Article } from '../../../types/article';
+import { ArticleDto } from '../../../types/article';
 import { AsyncPipe } from '@angular/common';
 import { ArticleCard } from '../article-card/article-card';
 
@@ -13,7 +13,7 @@ import { ArticleCard } from '../article-card/article-card';
 })
 export class ArticleList {
   private articleService = inject(ArticlesService);
-  protected articles$: Observable<Article[]>;
+  protected articles$: Observable<ArticleDto[]>;
 
   constructor() {
     this.articles$ = this.articleService.getArticles();

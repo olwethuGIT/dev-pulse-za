@@ -9,4 +9,6 @@ public class AppUser
     public required string Email { get; set; }
     [JsonIgnore]
     public List<Article> Articles { get; set; } = [];
+    [JsonIgnore]
+    public List<ArticleLike> LikedArticles { get; set; } = [];
 }
