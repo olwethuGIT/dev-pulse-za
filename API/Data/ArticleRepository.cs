@@ -29,7 +29,8 @@ public class ArticleRepository(AppDbContext context) : IArticleRepository
                 CreatedAt = a.CreatedAt,
                 AuthorName = a.Author.DisplayName,
                 CategoryName = a.Category.Name,
-                LikesCount = a.Likes.Count
+                LikesCount = a.Likes.Count,
+                CommentsCount = a.Comments.Count
             })
             .ToListAsync();
     }

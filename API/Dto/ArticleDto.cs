@@ -11,4 +11,5 @@ public class ArticleDto
     public required string AuthorName { get; set; }
     public required string CategoryName { get; set; }
     public int LikesCount { get; set; }
+    public int CommentsCount { get; set; }
 }

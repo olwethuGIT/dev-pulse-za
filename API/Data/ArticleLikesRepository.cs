@@ -12,9 +12,9 @@ public class ArticleLikesRepository(AppDbContext context) : IArticleLikeReposito
         context.ArticleLikes.Add(like);
     }
 
-    public async Task<int> GetArticleLikesCount(string articleId)
+    public async Task<IReadOnlyList<ArticleLike>> GetArticleLikes(string articleId)
     {
-        return await context.ArticleLikes.CountAsync(l => l.ArticleId == articleId);
+        return await context.ArticleLikes.Where(l => l.ArticleId == articleId).ToListAsync();
     }
 
     public void RemoveLike(ArticleLike like)

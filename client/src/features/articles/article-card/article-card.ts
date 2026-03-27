@@ -1,8 +1,8 @@
 import { Component, inject, input } from '@angular/core';
-import { Article, ArticleDto } from '../../../types/article';
-import { LikeButton } from "../../../shared/like-button/like-button";
+import { ArticleDto } from '../../../types/article';
+import { LikeButton } from '../../../shared/like-button/like-button';
 import { CommentButton } from '../../../shared/comment-button/comment-button';
-import { RouterLink } from "@angular/router";
+import { RouterLink } from '@angular/router';
 import { LikesService } from '../../../core/services/likes-service';
 
 @Component({
@@ -16,8 +16,6 @@ export class ArticleCard {
   private likeService = inject(LikesService);
 
   toggleLike(articleId: string) {
-    this.likeService.toggleArticleLike(articleId, 'john-id').subscribe({
-        next: () => {}
-    });
+    this.likeService.toggleArticleLike(articleId, 'john-id').subscribe();
   }
 }

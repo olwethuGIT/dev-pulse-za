@@ -27,8 +27,10 @@
     <div class="flex justify-between items-center mt-4 text-sm text-gray-500">
       <span>👤 {{ article.authorName }}</span>
       <div class="flex gap-4">
-        <span><app-like-button [likeCount]="article.likesCount" (clickEvent)="toggleLike(article.id)"/></span>
-        <span><app-comment-button /></span>
+        <span
+          ><app-like-button [likeCount]="article.likesCount" (clickEvent)="toggleLike(article.id)"
+        /></span>
+        <span><app-comment-button [commentsCount]="article.commentsCount" /></span>
         <span class="text-blue-500 cursor-pointer">Read More</span>
       </div>
     </div>

@@ -7,7 +7,7 @@ import { Component, input, output, signal } from '@angular/core';
   styleUrl: './like-button.css',
 })
 export class LikeButton {
-  likeCount = input<number>(0);
+  likeCount = input<Number>(0);
   clickEvent = output<Event>();
 
   onClick(event: Event) {

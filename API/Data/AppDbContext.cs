@@ -31,6 +31,6 @@ public class AppDbContext(DbContextOptions options) : DbContext(options)
             .HasOne(c => c.ParentComment)
             .WithMany(c => c.Replies)
             .HasForeignKey(c => c.ParentCommentId)
-            .OnDelete(DeleteBehavior.Restrict); // ⚠️ important
+            .OnDelete(DeleteBehavior.Cascade); // ⚠️ important
     }
 }

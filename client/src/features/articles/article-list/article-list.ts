@@ -7,15 +7,14 @@ import { ArticleCard } from '../article-card/article-card';
 
 @Component({
   selector: 'app-article-list',
-  imports: [AsyncPipe, ArticleCard],
+  imports: [ArticleCard],
   templateUrl: './article-list.html',
   styleUrl: './article-list.css',
 })
 export class ArticleList {
-  private articleService = inject(ArticlesService);
-  protected articles$: Observable<ArticleDto[]>;
+  protected articleService = inject(ArticlesService);
 
   constructor() {
-    this.articles$ = this.articleService.getArticles();
+    this.articleService.getArticles().subscribe();
   }
 }

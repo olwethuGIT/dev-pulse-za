@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core';
+import { Component, input, signal } from '@angular/core';
 
 @Component({
   selector: 'app-comment-button',
@@ -7,5 +7,5 @@ import { Component, signal } from '@angular/core';
   styleUrl: './comment-button.css',
 })
 export class CommentButton {
-  commentCount = signal(32);
+  commentsCount = input<number>(0);
 }

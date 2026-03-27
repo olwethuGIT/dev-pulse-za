@@ -1,5 +1,3 @@
-using System;
-
 namespace API.Entities;
 
 public class Comment
@@ -10,7 +8,7 @@ public class Comment
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
     public string UserId { get; set; } = null!;
-    public AppUser User { get; set; } = null!;
+    public AppUser? User { get; set; } = null!;
 
     public string ArticleId { get; set; } = null!;
     public Article Article { get; set; } = null!;

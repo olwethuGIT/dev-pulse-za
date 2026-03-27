@@ -8,7 +8,7 @@ namespace API.Controllers;
 public class ArticleLikesController(IArticleLikeRepository likeRepository) : BaseApiController
 {
     [HttpPost("{articleId}/{userId}")]
-    public async Task<ActionResult> ToggleLike(string articleId, string userId)
+    public async Task<ActionResult<IReadOnlyList<ArticleLike>>> ToggleLike(string articleId, string userId)
     {
         var existingLike = await likeRepository.UserLikedArticle(userId, articleId);
 
@@ -29,7 +29,8 @@ public class ArticleLikesController(IArticleLikeRepository likeRepository) : Bas
         
         if(await likeRepository.SaveAllChangesAsync())
         {
-            return Ok();
+            var likes = await likeRepository.GetArticleLikes(articleId);
+            return Ok(likes);
         }
 
         return BadRequest("Failed to update like");
@@ -38,6 +39,7 @@ public class ArticleLikesController(IArticleLikeRepository likeRepository) : Bas
     [HttpGet("{articleId}/count")]
     public async Task<ActionResult<int>> GetArticleLikesCount(string articleId)
     {
-        return Ok(await likeRepository.GetArticleLikesCount(articleId));
+        var likes = await likeRepository.GetArticleLikes(articleId);
+        return Ok(likes.Count);
     }
 }

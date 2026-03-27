@@ -5,7 +5,8 @@ export type ArticleDto = {
   createdAt: string;
   authorName: string;
   categoryName: string;
-  likesCount: number;
+  likesCount: Number;
+  commentsCount: number;
 };
 
 export type Article = {
@@ -15,11 +16,7 @@ export type Article = {
   createdAt: string;
   isApproved: boolean;
   authorId: string;
-  author: {
-    id: string;
-    displayName: string;
-    email: string;
-  };
+  author: User;
   category: {
     id: string;
     name: string;
@@ -30,4 +27,21 @@ export type Article = {
 export interface ArticleLike {
   userId: string;
   articleId: string;
+}
+
+interface User {
+    id: string;
+    displayName: string;
+    email: string;
+  };
+
+export interface Comments {
+  id: string;
+  content: string;
+  createdAt?: string;
+  userId: string;
+  user?: User;
+  articleId: string;
+  parentCommentId: string | null;
+  replies?: Comments[];
 }

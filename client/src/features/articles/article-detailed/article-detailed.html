@@ -1,7 +1,7 @@
 @if (articleService.article(); as article) {
   <div class="max-w-3xl mx-auto p-4">
     <!-- Back -->
-    <button class="text-sm text-blue-500 mb-4 cursor-pointer">← Back</button>
+    <button (click)="goBack()" class="text-sm text-blue-500 mb-4 cursor-pointer">← Back</button>
 
     <!-- Meta -->
     <div class="flex justify-between text-xs text-gray-500 mb-3">
@@ -34,8 +34,10 @@
 
     <!-- Actions -->
     <div class="flex gap-6 text-gray-600 mb-6">
-      <span><app-like-button [likeCount]="article.likes.length" (clickEvent)="toggleLike(article)"/></span>
-      <span><app-comment-button /></span>
+      <span
+        ><app-like-button [likeCount]="article.likes.length" (clickEvent)="toggleLike(article)"
+      /></span>
+      <span><app-comment-button [commentsCount]="comments().length" /></span>
     </div>
 
     <!-- Comments Section -->
@@ -43,24 +45,47 @@
       <h2 class="text-lg font-semibold mb-3">Comments</h2>
 
       <!-- Add Comment -->
-      <textarea
-        class="w-full border rounded-xl p-3 mb-3 focus:outline-none focus:ring-2 focus:ring-blue-400"
-        placeholder="Write a comment..."
-      ></textarea>
-
-      <button class="bg-blue-500 text-white px-4 py-2 rounded-xl">Post Comment</button>
+      <form #commentForm="ngForm" (ngSubmit)="submitComment()" class="flex flex-col w-full">
+        <textarea
+          class="textarea w-full border rounded-xl p-3 mb-3 focus:outline-none focus:ring-2 focus:ring-blue-400"
+          placeholder="Write a comment..."
+          name="comment"
+          [(ngModel)]="comment.content"
+          type="text"
+        ></textarea>
+        <div class="flex flex-start">
+          <button
+            [disabled]="!commentForm.dirty"
+            class="bg-blue-500 w-fit text-white px-4 py-2 rounded-xl"
+          >
+            Post Comment
+          </button>
+        </div>
+      </form>
 
       <!-- Comment List -->
       <div class="mt-6 space-y-4">
-        <div class="bg-gray-100 p-3 rounded-xl">
-          <p class="text-sm font-medium">User1</p>
-          <p class="text-sm text-gray-600">Great article!</p>
-        </div>
-
-        <div class="bg-gray-100 p-3 rounded-xl">
-          <p class="text-sm font-medium">User2</p>
-          <p class="text-sm text-gray-600">This is big for SA</p>
-        </div>
+        @for (comment of comments(); track comment.id) {
+          <div class="bg-gray-100 p-3 rounded-xl">
+            <p class="text-sm font-medium">{{ comment.user?.displayName }}</p>
+            <p class="text-sm text-gray-600">{{ comment.content }}</p>
+          </div>
+          <!-- Replies -->
+          @if (comment.replies?.length) {
+            <div class="mt-3 ml-4 space-y-3 border-l pl-3">
+              @for (reply of comment.replies; track reply.id) {
+                <div class="bg-gray-200 p-2 rounded-lg">
+                  <p class="text-xs font-medium">
+                    {{ reply.user?.displayName }}
+                  </p>
+                  <p class="text-xs text-gray-600">
+                    {{ reply.content }}
+                  </p>
+                </div>
+              }
+            </div>
+          }
+        }
       </div>
     </div>
   </div>
