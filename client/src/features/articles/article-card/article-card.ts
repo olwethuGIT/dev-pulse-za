@@ -16,6 +16,6 @@ export class ArticleCard {
   private likeService = inject(LikesService);
 
   toggleLike(articleId: string) {
-    this.likeService.toggleArticleLike(articleId, 'john-id').subscribe();
+    this.likeService.toggleArticleLike(articleId).subscribe();
   }
 }

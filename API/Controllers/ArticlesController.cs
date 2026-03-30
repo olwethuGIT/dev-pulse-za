@@ -1,18 +1,23 @@
 using API.Dto;
 using API.Entities;
+using API.Extensions;
 using API.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
 {
+    [Authorize]
     public class ArticlesController(IArticleRepository articleRepository, ICommentService commentService, IMemberRepository memberRepository) : BaseApiController
     {
+        [AllowAnonymous]
         [HttpGet]
         public async Task<ActionResult<IReadOnlyList<Article>>> GetArticles()
         {
             return Ok(await articleRepository.GetArticlesAsync());
         }
 
+        [AllowAnonymous]
         [HttpGet("{id}")]
         public async Task<ActionResult<Article>> GetArticle(string id)
         {
@@ -30,7 +35,10 @@ namespace API.Controllers
 
             if (article == null) return NotFound("Article not found");
 
-            var user = await memberRepository.GetMemberByIdAsync(commentDto.UserId);
+            Console.WriteLine("Adding comment for article: " + User.GetUserId());
+            var user = await memberRepository.GetMemberByIdAsync(User.GetUserId());
+
+            if (user == null) return NotFound("User not found");
 
             var comment = new Comment
             {

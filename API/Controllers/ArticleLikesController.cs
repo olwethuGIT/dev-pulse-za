@@ -1,15 +1,19 @@
 using System;
 using API.Entities;
+using API.Extensions;
 using API.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers;
 
+[Authorize]
 public class ArticleLikesController(IArticleLikeRepository likeRepository) : BaseApiController
 {
-    [HttpPost("{articleId}/{userId}")]
-    public async Task<ActionResult<IReadOnlyList<ArticleLike>>> ToggleLike(string articleId, string userId)
+    [HttpPost("{articleId}")]
+    public async Task<ActionResult<IReadOnlyList<ArticleLike>>> ToggleLike(string articleId)
     {
+        var userId = User.GetUserId();
         var existingLike = await likeRepository.UserLikedArticle(userId, articleId);
 
         if (existingLike == null)
@@ -26,8 +30,8 @@ public class ArticleLikesController(IArticleLikeRepository likeRepository) : Bas
         {
             likeRepository.RemoveLike(existingLike);
         }
-        
-        if(await likeRepository.SaveAllChangesAsync())
+
+        if (await likeRepository.SaveAllChangesAsync())
         {
             var likes = await likeRepository.GetArticleLikes(articleId);
             return Ok(likes);

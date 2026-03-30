@@ -1,4 +1,6 @@
-import { Component, input, output, signal } from '@angular/core';
+import { Component, inject, input, output, signal } from '@angular/core';
+import { AccountService } from '../../core/services/account-service';
+import { ModalService } from '../../core/services/modal-service';
 
 @Component({
   selector: 'app-like-button',
@@ -9,8 +11,14 @@ import { Component, input, output, signal } from '@angular/core';
 export class LikeButton {
   likeCount = input<Number>(0);
   clickEvent = output<Event>();
+  private accountService = inject(AccountService);
+  private modalService = inject(ModalService);
 
   onClick(event: Event) {
-    this.clickEvent.emit(event);
+    if (this.accountService.currentUser() == null) {
+      this.modalService.open();
+    } else {
+      this.clickEvent.emit(event);
+    }
   }
 }

@@ -1,3 +1,5 @@
+import { User } from "./user";
+
 export type ArticleDto = {
   id: string;
   title: string;
@@ -29,17 +31,11 @@ export interface ArticleLike {
   articleId: string;
 }
 
-interface User {
-    id: string;
-    displayName: string;
-    email: string;
-  };
-
 export interface Comments {
   id: string;
   content: string;
   createdAt?: string;
-  userId: string;
+  userId?: string;
   user?: User;
   articleId: string;
   parentCommentId: string | null;

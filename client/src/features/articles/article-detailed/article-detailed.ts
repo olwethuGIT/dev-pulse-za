@@ -15,6 +15,8 @@ import { LikesService } from '../../../core/services/likes-service';
 import { Article, Comments } from '../../../types/article';
 import { Location } from '@angular/common';
 import { FormsModule, NgForm } from '@angular/forms';
+import { AccountService } from '../../../core/services/account-service';
+import { ModalService } from '../../../core/services/modal-service';
 
 @Component({
   selector: 'app-article-detailed',
@@ -30,6 +32,8 @@ export class ArticleDetailed implements OnInit {
     }
   }
 
+  private accountService = inject(AccountService);
+  private modalService = inject(ModalService);
   protected articleService = inject(ArticlesService);
   private likeService = inject(LikesService);
   protected route = inject(ActivatedRoute);
@@ -42,7 +46,6 @@ export class ArticleDetailed implements OnInit {
   protected comment: Comments = {
     id: '',
     content: '',
-    userId: 'jane-id',
     articleId: this.currentArticleId() || '',
     parentCommentId: null,
   };
@@ -52,7 +55,7 @@ export class ArticleDetailed implements OnInit {
   }
 
   toggleLike(article: Article) {
-    this.likeService.toggleArticleLike(article.id, 'john-id').subscribe({
+    this.likeService.toggleArticleLike(article.id).subscribe({
       next: (likes) => {
         this.articleService.article.update((currentArticle) => {
           if (!currentArticle) return currentArticle;
@@ -74,6 +77,11 @@ export class ArticleDetailed implements OnInit {
   }
 
   submitComment() {
+    if (this.accountService.currentUser() == null) {
+      this.modalService.open();
+      return;
+    }
+    
     if (!this.comment.content.trim()) return;
 
     this.articleService.addComment(this.comment).subscribe({

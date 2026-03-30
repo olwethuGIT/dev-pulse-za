@@ -1,0 +1,159 @@
+<dialog #modalRef class="modal">
+  <div class="modal-box">
+    <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2" (click)="close()">
+      ✕
+    </button>
+    <div class="w-full max-w-md mx-auto bg-white rounded-2xl p-6 shadow-lg">
+      @if (isRegistered()) {
+        <!-- Title -->
+        <h2 class="text-xl font-semibold text-gray-800 mb-4 text-center">Welcome back</h2>
+
+        <!-- Email -->
+        <form #loginForm="ngForm" (ngSubmit)="login()">
+          <input
+            type="email"
+            [(ngModel)]="loginCredentials.email"
+            name="email"
+            placeholder="Email"
+            class="w-full border rounded-xl p-3 mb-3 focus:outline-none focus:ring-2 focus:ring-blue-500 input"
+          />
+
+          <!-- Password -->
+          <input
+            type="password"
+            [(ngModel)]="loginCredentials.password"
+            placeholder="Password"
+            name="password"
+            class="w-full border rounded-xl p-3 mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+
+          <!-- Login Button -->
+          <button class="w-full bg-blue-500 text-white py-2 rounded-xl mb-4" type="submit">
+            Login
+          </button>
+        </form>
+
+        <!-- Divider -->
+        <div class="flex items-center my-4">
+          <div class="flex-1 h-px bg-gray-300"></div>
+          <span class="px-3 text-sm text-gray-500">or</span>
+          <div class="flex-1 h-px bg-gray-300"></div>
+        </div>
+
+        <!-- OAuth Buttons -->
+        <div class="space-y-3">
+          <!-- Google -->
+          <button
+            class="w-full flex items-center justify-center gap-2 border rounded-xl py-2 hover:bg-gray-50"
+          >
+            <!-- Google Icon -->
+            <svg class="w-5 h-5" viewBox="0 0 48 48">
+              <path
+                fill="#EA4335"
+                d="M24 9.5c3.54 0 6.73 1.22 9.24 3.6l6.9-6.9C35.98 2.3 30.35 0 24 0 14.6 0 6.36 5.48 2.5 13.44l8.05 6.25C12.5 13.3 17.8 9.5 24 9.5z"
+              />
+              <path
+                fill="#34A853"
+                d="M46.1 24.5c0-1.6-.15-3.14-.42-4.63H24v9.13h12.4c-.54 2.9-2.2 5.35-4.7 7l7.2 5.6c4.2-3.87 6.6-9.58 6.6-17.1z"
+              />
+              <path
+                fill="#FBBC05"
+                d="M10.55 28.7c-.5-1.5-.8-3.1-.8-4.7s.3-3.2.8-4.7L2.5 13.44C.9 16.5 0 20.1 0 24s.9 7.5 2.5 10.56l8.05-5.86z"
+              />
+              <path
+                fill="#4285F4"
+                d="M24 48c6.35 0 11.7-2.1 15.6-5.7l-7.2-5.6c-2 1.35-4.6 2.15-8.4 2.15-6.2 0-11.5-3.8-13.45-9.2l-8.05 6.25C6.36 42.52 14.6 48 24 48z"
+              />
+            </svg>
+            Continue with Google
+          </button>
+
+          <!-- GitHub -->
+          <button
+            class="w-full flex items-center justify-center gap-2 border rounded-xl py-2 hover:bg-gray-50"
+          >
+            <!-- GitHub Icon -->
+            <svg class="w-5 h-5 fill-black" viewBox="0 0 24 24">
+              <path
+                d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.38 7.86 10.9.57.1.78-.25.78-.55v-2.1c-3.2.7-3.87-1.54-3.87-1.54-.52-1.32-1.28-1.67-1.28-1.67-1.05-.72.08-.7.08-.7 1.16.08 1.77 1.2 1.77 1.2 1.03 1.77 2.7 1.26 3.36.97.1-.75.4-1.26.73-1.55-2.55-.29-5.23-1.27-5.23-5.64 0-1.25.45-2.27 1.2-3.07-.12-.3-.52-1.5.12-3.13 0 0 .98-.32 3.2 1.2a11.1 11.1 0 0 1 5.82 0c2.22-1.52 3.2-1.2 3.2-1.2.64 1.63.24 2.83.12 3.13.75.8 1.2 1.82 1.2 3.07 0 4.38-2.69 5.34-5.25 5.63.42.36.78 1.08.78 2.18v3.24c0 .3.2.65.8.54C20.22 21.37 23.5 17.07 23.5 12 23.5 5.65 18.35.5 12 .5z"
+              />
+            </svg>
+            Continue with GitHub
+          </button>
+        </div>
+
+        <!-- Switch -->
+        <p class="text-sm text-center mt-4">
+          Don’t have an account?
+          <span class="text-blue-500 cursor-pointer" (click)="isRegistered.set(false)"
+            >Register</span
+          >
+        </p>
+      } @else {
+        <!-- Title -->
+        <h2 class="text-xl font-semibold text-gray-800 mb-4 text-center">Create account</h2>
+
+        <form>
+          <!-- Name -->
+          <input
+            type="text"
+            [(ngModel)]="registerCredentials.displayName"
+            name="displayName"
+            placeholder="Display Name"
+            class="w-full border rounded-xl p-3 mb-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+
+          <!-- Email -->
+          <input
+            type="email"
+            [(ngModel)]="registerCredentials.email"
+            name="email"
+            placeholder="Email"
+            class="w-full border rounded-xl p-3 mb-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+
+          <!-- Password -->
+          <input
+            type="password"
+            [(ngModel)]="registerCredentials.password"
+            name="password"
+            placeholder="Password"
+            class="w-full border rounded-xl p-3 mb-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+
+          <!-- Newsletter Checkbox -->
+          <label class="flex items-center gap-2 text-sm text-gray-600 mb-4">
+            <input type="checkbox" [(ngModel)]="registerCredentials.subscribeToNewsletter" name="subscribeToNewsletter" class="w-4 h-4" />
+            Subscribe to weekly tech newsletter
+          </label>
+
+          <!-- Register Button -->
+          <button class="w-full bg-blue-500 text-white py-2 rounded-xl mb-4" type="submit" (click)="register()">Register</button>
+        </form>
+
+        <!-- Divider -->
+        <div class="flex items-center my-4">
+          <div class="flex-1 h-px bg-gray-300"></div>
+          <span class="px-3 text-sm text-gray-500">or</span>
+          <div class="flex-1 h-px bg-gray-300"></div>
+        </div>
+
+        <!-- OAuth -->
+        <div class="space-y-3">
+          <button class="w-full border rounded-xl py-2 hover:bg-gray-50">
+            Continue with Google
+          </button>
+          <button class="w-full border rounded-xl py-2 hover:bg-gray-50">
+            Continue with GitHub
+          </button>
+        </div>
+
+        <!-- Switch -->
+        <p class="text-sm text-center mt-4">
+          Already have an account?
+          <span class="text-blue-500 cursor-pointer" (click)="isRegistered.set(true)">Login</span>
+        </p>
+      }
+    </div>
+  </div>
+</dialog>

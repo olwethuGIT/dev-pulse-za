@@ -16,8 +16,8 @@ export class LikesService {
     return this.http.get<Number>(`${this.baseUrl}articleLikes/${articleId}/count`);
   }
 
-  toggleArticleLike(articleId: string, userId: string) {
-    return this.http.post<[]>(`${this.baseUrl}articleLikes/${articleId}/${userId}`, {}).pipe(
+  toggleArticleLike(articleId: string) {
+    return this.http.post<[]>(`${this.baseUrl}articleLikes/${articleId}`, {}).pipe(
       tap((likes) => {
         this.articleService.articleList.update((articles) => {
           if (!articles) return articles;
