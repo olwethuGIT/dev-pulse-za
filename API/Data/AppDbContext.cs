@@ -9,6 +9,7 @@ public class AppDbContext(DbContextOptions options) : DbContext(options)
     public DbSet<Article> Articles { get; set; }
     public DbSet<ArticleLike> ArticleLikes { get; set; }
     public DbSet<Comment> Comments { get; set; }
+    public DbSet<Category> Category { get; set; }
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);

@@ -8,13 +8,20 @@ using Microsoft.AspNetCore.Mvc;
 namespace API.Controllers
 {
     [Authorize]
-    public class ArticlesController(IArticleRepository articleRepository, ICommentService commentService, IMemberRepository memberRepository) : BaseApiController
+    public class ArticlesController(IArticleRepository articleRepository, ICommentService commentService, IMemberRepository memberRepository, ICategoryService categoryService) : BaseApiController
     {
         [AllowAnonymous]
         [HttpGet]
         public async Task<ActionResult<IReadOnlyList<Article>>> GetArticles()
         {
             return Ok(await articleRepository.GetArticlesAsync());
+        }
+
+        [AllowAnonymous]
+        [HttpGet("top")]
+        public async Task<ActionResult<IReadOnlyList<Article>>> GetTopArticles()
+        {
+            return Ok(await articleRepository.GetTopArticles());
         }
 
         [AllowAnonymous]
@@ -56,6 +63,7 @@ namespace API.Controllers
             return BadRequest("Failed to add comment");
         }
 
+        [AllowAnonymous]
         [HttpGet("{articleId}/comments")]
         public async Task<ActionResult<IReadOnlyList<Comment>>> GetComments(string articleId)
         {
@@ -92,6 +100,47 @@ namespace API.Controllers
             if (await commentService.SaveAllChangesAsync()) return NoContent();
 
             return BadRequest("Failed to update comment");
+        }
+
+        [AllowAnonymous]
+        [HttpGet("categories")]
+        public async Task<ActionResult<IReadOnlyList<Category>>> GetCategories()
+        {
+            return Ok(await categoryService.GetAllCategories());
+        }
+
+        [AllowAnonymous]
+        [HttpPut("{articleId}/record-view")]
+        public async Task<ActionResult> RecordView(string articleId)
+        {
+            var article = await articleRepository.GetArticleByIdAsync(articleId);
+
+            if (article == null) return NotFound("Article not found");
+
+            article.ViewsCount += 1;
+
+            articleRepository.UpdateArticle(article);
+
+            if (await articleRepository.SaveChanges()) return NoContent();
+
+            return BadRequest("Failed to record view");
+        }
+
+        [AllowAnonymous]
+        [HttpPut("{articleId}/read-time")]
+        public async Task<ActionResult> UpdateReadTime(string articleId, [FromQuery] int readTime)
+        {
+            var article = await articleRepository.GetArticleByIdAsync(articleId);
+
+            if (article == null) return NotFound("Article not found");
+
+            article.TotalReadTime += readTime;
+
+            articleRepository.UpdateArticle(article);
+
+            if (await articleRepository.SaveChanges()) return NoContent();
+
+            return BadRequest("Failed to update read time");
         }
     }
 }

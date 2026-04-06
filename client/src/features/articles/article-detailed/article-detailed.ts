@@ -3,6 +3,7 @@ import {
   computed,
   HostListener,
   inject,
+  OnDestroy,
   OnInit,
   signal,
   ViewChild,
@@ -17,6 +18,7 @@ import { Location } from '@angular/common';
 import { FormsModule, NgForm } from '@angular/forms';
 import { AccountService } from '../../../core/services/account-service';
 import { ModalService } from '../../../core/services/modal-service';
+import { calculateReadTime } from '../../../core/utilities/utils';
 
 @Component({
   selector: 'app-article-detailed',
@@ -24,7 +26,7 @@ import { ModalService } from '../../../core/services/modal-service';
   templateUrl: './article-detailed.html',
   styleUrl: './article-detailed.css',
 })
-export class ArticleDetailed implements OnInit {
+export class ArticleDetailed implements OnInit, OnDestroy {
   @ViewChild('commentForm') commentForm?: NgForm;
   @HostListener('window:beforeunload', ['$event']) notify($event: BeforeUnloadEvent) {
     if (this.commentForm?.dirty) {
@@ -49,9 +51,25 @@ export class ArticleDetailed implements OnInit {
     articleId: this.currentArticleId() || '',
     parentCommentId: null,
   };
+  protected readTime = 0;
+  private startTime = Date.now();
 
   ngOnInit(): void {
+    this.startTime = Date.now();
     this.loadComments();
+    this.readTime = calculateReadTime(this.articleService.article()?.content || '');
+    this.recordView();
+  }
+
+  recordView() {
+    let articleId = this.currentArticleId();
+    if (!articleId) return;
+
+    const key = `viewed-${articleId}`;
+    if (!localStorage.getItem(key)) {
+      this.articleService.recordView(articleId).subscribe();
+      localStorage.setItem(key, 'true');
+    }
   }
 
   toggleLike(article: Article) {
@@ -81,7 +99,7 @@ export class ArticleDetailed implements OnInit {
       this.modalService.open();
       return;
     }
-    
+
     if (!this.comment.content.trim()) return;
 
     this.articleService.addComment(this.comment).subscribe({
@@ -95,5 +113,13 @@ export class ArticleDetailed implements OnInit {
 
   goBack() {
     this.location.back();
+  }
+
+  ngOnDestroy(): void {
+    const seconds = Math.floor((Date.now() - this.startTime) / 1000);
+
+    if (seconds > 3) {
+      this.articleService.recordReadTime(this.articleService.article()!.id, seconds).subscribe();
+    }
   }
 }

@@ -13,22 +13,18 @@
     <div class="rounded-2xl shadow-md p-4 bg-white hover:shadow-lg transition">
       <h3 class="text-sm font-semibold text-gray-500 mb-2">Top Articles</h3>
       <ul class="text-sm text-gray-600">
-        <li class="mb-1 cursor-pointer hover:text-blue-500">How to Learn Angular in 2024</li>
-        <li class="mb-1 cursor-pointer hover:text-blue-500">10 Tips for Writing Clean Code</li>
-        <li class="mb-1 cursor-pointer hover:text-blue-500">The Future of Web Development</li>
-        <li class="mb-1 cursor-pointer hover:text-blue-500">Understanding RxJS in Angular</li>
-        <li class="mb-1 cursor-pointer hover:text-blue-500">State Management with NgRx</li>
+        @for (article of articleService.topArticleList(); track article.id) {
+          <li routerLink="/article/{{ article.id }}" class="mb-1 cursor-pointer hover:text-blue-500">{{ article.title }}</li>
+        }
       </ul>
     </div>
 
     <div class="rounded-2xl shadow-md p-4 bg-white hover:shadow-lg transition">
       <h3 class="text-sm font-semibold text-gray-500 mb-2">Categories</h3>
       <ul class="text-sm text-gray-600">
-        <li class="mb-1 cursor-pointer hover:text-blue-500">Angular</li>
-        <li class="mb-1 cursor-pointer hover:text-blue-500">React</li>
-        <li class="mb-1 cursor-pointer hover:text-blue-500">Vue.js</li>
-        <li class="mb-1 cursor-pointer hover:text-blue-500">JavaScript</li>
-        <li class="mb-1 cursor-pointer hover:text-blue-500">CSS</li>
+        @for (category of articleService.categoryList(); track category.id) {
+          <li class="mb-1 cursor-pointer hover:text-blue-500">{{ category.name }}</li>
+        }
       </ul>
     </div>
   </div>

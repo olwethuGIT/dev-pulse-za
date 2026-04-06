@@ -25,7 +25,8 @@
 
     <!-- Footer -->
     <div class="flex justify-between items-center mt-4 text-sm text-gray-500">
-      <span>👤 {{ article.authorName }}</span>
+      <!-- <span>👤 {{ article.authorName }}</span> -->
+      <span>⏱ {{ readTime }} min read</span>
       <div class="flex gap-4">
         <span
           ><app-like-button [likeCount]="article.likesCount" (clickEvent)="toggleLike(article.id)"

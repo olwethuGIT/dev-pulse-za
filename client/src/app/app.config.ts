@@ -11,29 +11,30 @@ import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { jwtInterceptor } from '../core/interceptors/jwt-interceptor';
 import { InitService } from '../core/services/init-service';
 import { lastValueFrom } from 'rxjs/internal/lastValueFrom';
+import { errorInterceptor } from '../core/interceptors/error-interceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
     provideZonelessChangeDetection(),
     provideRouter(routes),
-    provideHttpClient(withInterceptors([jwtInterceptor])),
-    provideAppInitializer(async ()=> {
+    provideHttpClient(withInterceptors([errorInterceptor, jwtInterceptor])),
+    provideAppInitializer(async () => {
       const initService = inject(InitService);
 
       return new Promise<void>((resolve) => {
-        setTimeout(async ()=> {
+        setTimeout(async () => {
           try {
-            return lastValueFrom(initService.init())
+            return lastValueFrom(initService.init());
           } finally {
             const splash = document.getElementById('initial-splash');
-            if(splash) {
+            if (splash) {
               splash.remove();
             }
             resolve();
           }
         }, 500);
       });
-    })
+    }),
   ],
 };
