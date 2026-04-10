@@ -43,34 +43,11 @@
         <!-- OAuth Buttons -->
         <div class="space-y-3">
           <!-- Google -->
-          <button
-            class="w-full flex items-center justify-center gap-2 border rounded-xl py-2 hover:bg-gray-50"
-          >
-            <!-- Google Icon -->
-            <svg class="w-5 h-5" viewBox="0 0 48 48">
-              <path
-                fill="#EA4335"
-                d="M24 9.5c3.54 0 6.73 1.22 9.24 3.6l6.9-6.9C35.98 2.3 30.35 0 24 0 14.6 0 6.36 5.48 2.5 13.44l8.05 6.25C12.5 13.3 17.8 9.5 24 9.5z"
-              />
-              <path
-                fill="#34A853"
-                d="M46.1 24.5c0-1.6-.15-3.14-.42-4.63H24v9.13h12.4c-.54 2.9-2.2 5.35-4.7 7l7.2 5.6c4.2-3.87 6.6-9.58 6.6-17.1z"
-              />
-              <path
-                fill="#FBBC05"
-                d="M10.55 28.7c-.5-1.5-.8-3.1-.8-4.7s.3-3.2.8-4.7L2.5 13.44C.9 16.5 0 20.1 0 24s.9 7.5 2.5 10.56l8.05-5.86z"
-              />
-              <path
-                fill="#4285F4"
-                d="M24 48c6.35 0 11.7-2.1 15.6-5.7l-7.2-5.6c-2 1.35-4.6 2.15-8.4 2.15-6.2 0-11.5-3.8-13.45-9.2l-8.05 6.25C6.36 42.52 14.6 48 24 48z"
-              />
-            </svg>
-            Continue with Google
-          </button>
+          <div id="google-btn"></div>
 
           <!-- GitHub -->
           <button
-            class="w-full flex items-center justify-center gap-2 border rounded-xl py-2 hover:bg-gray-50"
+            class="w-full flex items-center justify-center gap-2 border rounded-xl py-2 hover:bg-gray-50" (click)="handleGithubLogin()"
           >
             <!-- GitHub Icon -->
             <svg class="w-5 h-5 fill-black" viewBox="0 0 24 24">

@@ -10,8 +10,11 @@ public class AppUser
     public bool RegisteredForNewsletter { get; set; } = true;
     public bool emailConfirmed { get; set; } = false;
     public string? ImageUrl { get; set; }
-    public required byte[] PasswordHash { get; set; }
-    public required byte[] PasswordSalt { get; set; }
+    public byte[]? PasswordHash { get; set; }
+    public byte[]? PasswordSalt { get; set; }
+    public string? GoogleId { get; set; }
+    public long? GitHubId { get; set; }
+    public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     [JsonIgnore]
     public List<Article> Articles { get; set; } = [];
     [JsonIgnore]
