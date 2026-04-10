@@ -23,8 +23,12 @@ export class ArticleCard implements OnInit {
 
   toggleLike(articleId: string) {
     this.likeService.toggleArticleLike(articleId).subscribe({
-      next:() => {},
-      error: (err) => console.error('Error toggling like:', err)
+      next: () => {},
+      error: (err) => console.error('Error toggling like:', err),
     });
+  }
+
+  getPreview(content: string, limit: number = 150): string {
+    return content.length > limit ? content.substring(0, limit) + '...' : content;
   }
 }

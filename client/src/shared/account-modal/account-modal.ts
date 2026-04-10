@@ -47,8 +47,7 @@ export class AccountModal implements OnInit {
             theme: 'filled_blue',
             size: 'large',
             shape: 'rectangle',
-            text: 'continue_with',
-            with: 500,
+            text: 'continue_with'
           });
         });
       } else {

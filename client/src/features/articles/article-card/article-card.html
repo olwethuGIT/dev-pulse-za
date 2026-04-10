@@ -1,7 +1,7 @@
 @if (article(); as article) {
-  <div class="rounded-2xl shadow-md p-4 bg-white hover:shadow-lg transition">
+  <div class="card bg-base-100 border border-base-300 hover:border-base-content/20 rounded-xl shadow-md p-4 hover:shadow-lg transition-all duration-200">
     <!-- Top -->
-    <div class="flex justify-between text-xs text-gray-500 mb-2">
+    <div class="flex justify-between text-xs text-base-400 mb-2">
       <div class="flex gap-2">
         <span class="bg-green-100 text-green-700 px-2 py-1 rounded">
           {{ article.categoryName }}
@@ -20,7 +20,7 @@
 
     <!-- Description -->
     <p class="text-sm text-gray-600 mt-2">
-      {{ article.content }}
+      {{ getPreview(article.content, 150) }}
     </p>
 
     <!-- Footer -->
@@ -32,7 +32,7 @@
           ><app-like-button [likeCount]="article.likesCount" (clickEvent)="toggleLike(article.id)"
         /></span>
         <span><app-comment-button [commentsCount]="article.commentsCount" /></span>
-        <span class="text-blue-500 cursor-pointer">Read More</span>
+        <span class="text-blue-500 cursor-pointer" routerLink="/article/{{ article.id }}">Read More</span>
       </div>
     </div>
   </div>
